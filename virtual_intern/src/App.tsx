@@ -115,7 +115,7 @@ function App() {
   return (
     <>
       <div style={{ marginBottom: "15px", display: "flex", gap: "10px" }}>
-        {["brand", "category", "price", "rating"].map(f => (
+        {["brand", "category"].map(f => (
           <select
             key={f}
             value={filters[f]}
@@ -130,6 +130,29 @@ function App() {
 
           </select>
         ))}
+        <select
+          value={filters.price}
+          onChange={e => setFilters({ ...filters, price: e.target.value })}
+        >
+          <option value="">All price</option>
+          {Object.keys(priceRanges).map(range => (
+            <option key={range} value={range}>
+              {range}
+            </option>
+          ))}
+        </select>
+        <select
+          value={filters.rating}
+          onChange={e => setFilters({ ...filters, rating: e.target.value })}
+        >
+          <option value="">All rating</option>
+          {Object.keys(ratingRanges).map(range => (
+            <option key={range} value={range}>
+              {range}
+            </option>
+          ))}
+        </select>
+
         <button onClick={() => setFilters({ brand: "", category: "", price: "", rating: "" })}>
           Reset
         </button>
