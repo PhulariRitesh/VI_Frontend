@@ -14,6 +14,47 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+   const [filters, setFilters] = useState({
+    brand: "",
+    category: "",
+    price: "",
+    rating: ""
+  },);
+
+  const priceRanges: Record<string, (p: Product) => boolean> = {
+  "0-50": (p: Product) => p.price <= 50,
+  "51-100": (p: Product) => p.price > 50 && p.price <= 100,
+  "100+": (p: Product) => p.price > 100
+};
+
+const ratingRanges: Record<string, (p: Product) => boolean> = {
+  "0-2": (p: Product) => p.rating <= 2,
+  "2-4": (p: Product) => p.rating > 2 && p.rating <= 4,
+  "4-5": (p: Product) => p.rating > 4
+};
+
+  let filterdata = products.filter((product: Product) => {
+      return (filters.brand === "" || product.brand === filters.brand) &&
+             (filters.category === "" || product.category === filters.category) &&
+             (filters.price === "" || priceRanges[filters.price](product)) &&
+             (filters.rating === "" || ratingRanges[filters.rating](product));
+    });
+
+    
+const getOptions = (field: keyof Product) => {
+  return [
+    ...new Set(
+      products
+        .filter(p =>
+          Object.entries(filters).every(([key, value]) =>
+            key === field || value === "" || p[key] === value
+          )
+        )
+        .map(p => p[field])
+    )
+  ];
+};
+
 const handleTitleEdit = async (id, value) => {
   if (!value.trim()) return;
   await updateProductTitle(id, value);
@@ -37,7 +78,7 @@ const fetchProducts = () => {
     try {
       const res = await fetch("https://dummyjson.com/products");
       const data = await res.json();
-      console.log(data.products);
+      // console.log(data.products);
       setTimeout(() => {
         setProducts(data.products);
         resolve(data.products);
@@ -66,7 +107,26 @@ if (error) return <p>{error}</p>;
 
   return (
     <>
+ <div style={{ marginBottom: "15px", display: "flex", gap: "10px" }}>
+  {["brand", "category","price","rating"].map(f => (
+    <select
+      key={f}
+      value={filters[f]}
+      onChange={e => setFilters({ ...filters, [f]: e.target.value })}
+    >
+      <option value="">All {f}</option>
+     {getOptions(f).map(val => (
+  <option key={`${f}-${val}`} value={val}>
+    {val}
+  </option>
+))}
 
+    </select>
+  ))}
+    <button onClick={() => setFilters({ brand:"", category:"", price:"", rating:"" })}>
+    Reset
+  </button>
+</div>
     
       <div>
       <table>
@@ -81,7 +141,7 @@ if (error) return <p>{error}</p>;
       </tr>
       </thead>
       <tbody>
-        {products.map((product) => (
+        {filterdata.map((product) => (
           <tr key={product.id}>
           <td>
   <input
@@ -115,6 +175,11 @@ if (error) return <p>{error}</p>;
       </tbody>
       </table>
 
+{filterdata.length === 0 && (
+  <p style={{ marginTop: "15px", color: "red" }}>
+    No results found
+  </p>
+)}
       </div>
         </>
   )
