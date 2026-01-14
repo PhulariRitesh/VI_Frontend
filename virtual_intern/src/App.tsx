@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-  type Product = {
+type Product = {
   id: number;
   title: string;
   brand: string;
@@ -14,7 +14,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-   const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState({
     brand: "",
     category: "",
     price: "",
@@ -22,166 +22,173 @@ function App() {
   },);
 
   const priceRanges: Record<string, (p: Product) => boolean> = {
-  "0-50": (p: Product) => p.price <= 50,
-  "51-100": (p: Product) => p.price > 50 && p.price <= 100,
-  "100+": (p: Product) => p.price > 100
-};
+    "0-50": (p: Product) => p.price <= 50,
+    "51-100": (p: Product) => p.price > 50 && p.price <= 100,
+    "100+": (p: Product) => p.price > 100
+  };
 
-const ratingRanges: Record<string, (p: Product) => boolean> = {
-  "0-2": (p: Product) => p.rating <= 2,
-  "2-4": (p: Product) => p.rating > 2 && p.rating <= 4,
-  "4-5": (p: Product) => p.rating > 4
-};
+  const ratingRanges: Record<string, (p: Product) => boolean> = {
+    "0-2": (p: Product) => p.rating <= 2,
+    "2-4": (p: Product) => p.rating > 2 && p.rating <= 4,
+    "4-5": (p: Product) => p.rating > 4
+  };
 
   let filterdata = products.filter((product: Product) => {
-      return (filters.brand === "" || product.brand === filters.brand) &&
-             (filters.category === "" || product.category === filters.category) &&
-             (filters.price === "" || priceRanges[filters.price](product)) &&
-             (filters.rating === "" || ratingRanges[filters.rating](product));
-    });
+    return (filters.brand === "" || product.brand === filters.brand) &&
+      (filters.category === "" || product.category === filters.category) &&
+      (filters.price === "" || priceRanges[filters.price](product)) &&
+      (filters.rating === "" || ratingRanges[filters.rating](product));
+  });
 
-    
-const getOptions = (field: keyof Product) => {
-  return [
-    ...new Set(
-      products
-        .filter(p =>
-          Object.entries(filters).every(([key, value]) =>
-            key === field || value === "" || p[key] === value
+
+  const getOptions = (field: keyof Product) => {
+    return [
+      ...new Set(
+        products
+          .filter(p =>
+            Object.entries(filters).every(([key, value]) =>
+              key === field || value === "" || p[key] === value
+            )
           )
-        )
-        .map(p => p[field])
-    )
-  ];
-};
+          .map(p => p[field])
+      )
+    ];
+  };
 
-const handleTitleEdit = async (id, value) => {
-  if (!value.trim()) return;
-  await updateProductTitle(id, value);
-};
+  const handleTitleEdit = async (id, value) => {
+    if (!value.trim()) return;
+    await updateProductTitle(id, value);
+  };
 
-const updateProductTitle = (id: number, title: string) => {
-  return new Promise<void>(resolve => {
-    setTimeout(() => {
-      setProducts(products.map(p =>
-        p.id === id ? { ...p, title } : p
-      ));
-      setProducts([...products]);
-      resolve();
-    }, 400);
-  });
-};
-
-
-const fetchProducts = () => {
-  return new Promise<Product[]>(async (resolve, reject) => {
-    try {
-      const res = await fetch("https://dummyjson.com/products");
-      const data = await res.json();
-      // console.log(data.products);
+  const updateProductTitle = (id: number, title: string) => {
+    return new Promise<void>(resolve => {
       setTimeout(() => {
-        setProducts(data.products);
-        resolve(data.products);
-      }, 800);
-    } catch {
-      reject("Failed to load products");
-    }
-  });
-};
+        setProducts(products.map(p =>
+          p.id === id ? { ...p, title } : p
+        ));
+        setProducts([...products]);
+        resolve();
+      }, 400);
+    });
+  };
 
-const deleteProduct = (id: number) => {
-  return new Promise<void>(resolve => {
-    setTimeout(() => {
-      setProducts(products.filter(p => p.id !== id));
-      resolve();
-    }, 400);
-  });
-};
+  useEffect(() => {
+    setLoading(true);
+    fetchProducts()
+      .then(setProducts)
+      .catch(() => setError("Failed to load products"))
+      .finally(() => setLoading(false));
+  }, []);
 
-useEffect(() => {
-  fetchProducts().then(setProducts);
-}, []);
+  const fetchProducts = () => {
+    return new Promise<Product[]>(async (resolve, reject) => {
+      try {
+        const res = await fetch("https://dummyjson.com/products");
+        const data = await res.json();
+        // console.log(data.products);
+        setTimeout(() => {
+          setProducts(data.products);
+          resolve(data.products);
+        }, 800);
+      } catch {
+        reject("Failed to load products");
+      }
+    });
+  };
 
-if (loading) return <p>Loading...</p>;
-if (error) return <p>{error}</p>;
+  const deleteProduct = (id: number) => {
+    return new Promise<void>(resolve => {
+      setTimeout(() => {
+        setProducts(products.filter(p => p.id !== id));
+        resolve();
+      }, 400);
+    });
+  };
+
+  useEffect(() => {
+    fetchProducts().then(setProducts);
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <>
- <div style={{ marginBottom: "15px", display: "flex", gap: "10px" }}>
-  {["brand", "category","price","rating"].map(f => (
-    <select
-      key={f}
-      value={filters[f]}
-      onChange={e => setFilters({ ...filters, [f]: e.target.value })}
-    >
-      <option value="">All {f}</option>
-     {getOptions(f).map(val => (
-  <option key={`${f}-${val}`} value={val}>
-    {val}
-  </option>
-))}
+      <div style={{ marginBottom: "15px", display: "flex", gap: "10px" }}>
+        {["brand", "category", "price", "rating"].map(f => (
+          <select
+            key={f}
+            value={filters[f]}
+            onChange={e => setFilters({ ...filters, [f]: e.target.value })}
+          >
+            <option value="">All {f}</option>
+            {getOptions(f).map(val => (
+              <option key={`${f}-${val}`} value={val}>
+                {val}
+              </option>
+            ))}
 
-    </select>
-  ))}
-    <button onClick={() => setFilters({ brand:"", category:"", price:"", rating:"" })}>
-    Reset
-  </button>
-</div>
-    
-      <div>
-      <table>
-      <thead>
-        <tr>
-        <th>Title</th>
-        <th>Brand</th>
-        <th>Category</th>
-        <th>Price</th>
-        <th>Rating</th>
-        <th>Action</th>
-      </tr>
-      </thead>
-      <tbody>
-        {filterdata.map((product) => (
-          <tr key={product.id}>
-          <td>
-  <input
-    value={product.title}
-    onChange={e =>
-      setProducts(prev =>
-        prev.map(p =>
-          p.id === product.id ? { ...p, title: e.target.value } : p
-        )
-      )
-    }
-    onBlur={() => updateProductTitle(product.id, product.title)}
-    style={{ width: "100%", border: "none", background: "transparent", textAlign: "center",color: "inherit" }}
-  />
-</td>
-          <td>{product.brand}</td>
-          <td>{product.category}</td>
-          <td>{product.price}</td>
-          <td>{product.rating}</td>
-                    <td>
-  <button
-    onClick={() => deleteProduct(product.id)}
-    style={{ color: "red", cursor: "pointer" }}
-  >
-    Delete
-  </button>
-</td>
-        </tr>
-        ))
-      }
-      </tbody>
-      </table>
-
-{filterdata.length === 0 && (
-  <p style={{ marginTop: "15px", color: "red" }}>
-    No results found
-  </p>
-)}
+          </select>
+        ))}
+        <button onClick={() => setFilters({ brand: "", category: "", price: "", rating: "" })}>
+          Reset
+        </button>
       </div>
-        </>
+
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Brand</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Rating</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filterdata.map((product) => (
+              <tr key={product.id}>
+                <td>
+                  <input
+                    value={product.title}
+                    onChange={e =>
+                      setProducts(prev =>
+                        prev.map(p =>
+                          p.id === product.id ? { ...p, title: e.target.value } : p
+                        )
+                      )
+                    }
+                    onBlur={() => updateProductTitle(product.id, product.title)}
+                    style={{ width: "100%", border: "none", background: "transparent", textAlign: "center", color: "inherit" }}
+                  />
+                </td>
+                <td>{product.brand}</td>
+                <td>{product.category}</td>
+                <td>{product.price}</td>
+                <td>{product.rating}</td>
+                <td>
+                  <button
+                    onClick={() => deleteProduct(product.id)}
+                    style={{ color: "red", cursor: "pointer" }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))
+            }
+          </tbody>
+        </table>
+
+        {filterdata.length === 0 && (
+          <p style={{ marginTop: "15px", color: "red" }}>
+            No results found
+          </p>
+        )}
+      </div>
+    </>
   )
 }
 
