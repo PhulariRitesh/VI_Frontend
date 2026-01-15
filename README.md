@@ -6,7 +6,7 @@ This project is a React-based frontend application built as part of an intern as
 ## Live Demo
 
 🔗 Deployed URL:  
-https://viintern-4646tf61x-ritesh-prakashrao-phularis-projects.vercel.app/
+[https://viintern-4646tf61x-ritesh-prakashrao-phularis-projects.vercel.app/](https://viproje-git-main-ritesh-prakashrao-phularis-projects.vercel.app/)
 
 ---
 
