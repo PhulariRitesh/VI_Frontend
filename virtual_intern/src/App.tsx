@@ -50,13 +50,13 @@ function App() {
       ...new Set(
         products
           .filter(p => {
-            if filters.price && !priceRanges[filters.price](p)){
+            if(filters.price && !priceRanges[filters.price](p)){
               return false;
             }
             if(filters.rating && !ratingRanges[filters.rating](p)){
               return false;
             }
-            if9filters.brand && field !== "brand" && p.brand !== filters.brand){
+            if(filters.brand && field !== "brand" && p.brand !== filters.brand){
               return false;
             }
             if(filter.category && field !== "category" && p.category !== filters.category){
