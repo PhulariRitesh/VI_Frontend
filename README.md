@@ -39,6 +39,7 @@ No third-party table or filter libraries were used, as required by the assignmen
 ---
 
 ## 📂 Project Structure
+'''
 src/
 ├─ api/
 │ └─ products.ts // Mock API logic
@@ -49,3 +50,4 @@ src/
 ├─ App.tsx // Main state & orchestration
 ├─ main.tsx
 └─ App.css
+'''
