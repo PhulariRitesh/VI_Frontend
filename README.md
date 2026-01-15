@@ -1,18 +1,16 @@
 # Product Listing & Filtering App
 
 This project is a React-based frontend application built as part of an intern assignment.  
-The objective was to demonstrate API handling, state management, table rendering, and dynamic filtering without using third-party table libraries.
-
 ---
 
-## 🚀 Live Demo
+## Live Demo
 
 🔗 Deployed URL:  
 https://viintern-4646tf61x-ritesh-prakashrao-phularis-projects.vercel.app/
 
 ---
 
-## 📌 Features
+##  Features
 
 - Fetches product data from a public dummy API
 - Uses mock API behavior with `Promise` and `setTimeout`
@@ -31,7 +29,7 @@ https://viintern-4646tf61x-ritesh-prakashrao-phularis-projects.vercel.app/
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **React** (Functional Components & Hooks)
 - **TypeScript**
@@ -42,7 +40,7 @@ No third-party table or filter libraries were used, as required by the assignmen
 
 
 
-## 📂 Project Structure
+## Project Structure
 ```
 src/
 ├─ App.tsx // Main state & orchestration
@@ -52,7 +50,7 @@ src/
 
 
 
-## ⚙️ Setup Instructions
+##  Setup Instructions
 
 ### Prerequisites
 - Node.js (v18 or v20 recommended)
@@ -65,13 +63,10 @@ npm install
 npm run dev
 Open http://localhost:5173 in your browser.
 
-🏗️ Build for Production
-bash
-Copy code
-npm run build
-This command generates a dist/ folder containing the production build.
 
-🌐 Deployment
+```
+```
+ Deployment
 The application is deployed on Vercel using GitHub integration.
 
 Framework: Vite
@@ -84,32 +79,8 @@ Node.js Version: 20.x
 
 Environment Variables: Not required
 
-🧠 Development Approach
-Began with a single-file implementation to ensure functionality
+```
 
-Refactored gradually as logic grew
-
-Used React hooks for simple and predictable state management
-
-Focused on readability and clarity over complex abstractions
-
-Followed the assignment constraints closely
-
-⚠️ Challenges Faced
-Implementing dynamic filters dependent on other active filters
-
-Managing inline editing without excessive updates
-
-Resolving build and deployment issues caused by experimental tooling
-
-These were resolved by simplifying logic, isolating responsibilities, and using stable configurations.
-
-📌 Notes
-No AI-generated code was used in this project
-
-All logic was implemented manually in line with assignment guidelines
-
-The project can be extended further with pagination or backend integration
 
 👤 Author
 Ritesh Phulari
