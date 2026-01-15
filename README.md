@@ -40,21 +40,17 @@ https://viintern-4646tf61x-ritesh-prakashrao-phularis-projects.vercel.app/
 
 No third-party table or filter libraries were used, as required by the assignment.
 
----
+
 
 ## 📂 Project Structure
-
+```
 src/
 ├─ App.tsx // Main state & orchestration
 ├─ main.tsx // Application entry point
 └─ App.css // Basic styling
+```
 
-yaml
-Copy code
 
-The main application state is managed in `App.tsx`, while UI responsibilities are kept simple and readable.
-
----
 
 ## ⚙️ Setup Instructions
 
