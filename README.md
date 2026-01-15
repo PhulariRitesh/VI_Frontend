@@ -1,10 +1,14 @@
 # Product Listing & Filtering App
 
-This project is a React-based frontend application built.
+This project is a React-based frontend application built as part of an intern assignment.  
+The objective was to demonstrate API handling, state management, table rendering, and dynamic filtering without using third-party table libraries.
+
+---
 
 ## 🚀 Live Demo
 
-🔗 Deployed URL: [http://viintern-aih856ar3-ritesh-prakashrao-phularis-projects.vercel.app/](https://viintern-4646tf61x-ritesh-prakashrao-phularis-projects.vercel.app/)
+🔗 Deployed URL:  
+https://viintern-4646tf61x-ritesh-prakashrao-phularis-projects.vercel.app/
 
 ---
 
@@ -23,7 +27,7 @@ This project is a React-based frontend application built.
 - Filters dynamically update based on other selected filters
 - Reset filters option
 - Loading state and basic error handling
-- Displays “No results found” when filters return empty data
+- Displays **“No results found”** when filters return empty data
 
 ---
 
@@ -39,14 +43,16 @@ No third-party table or filter libraries were used, as required by the assignmen
 ---
 
 ## 📂 Project Structure
-```
-src/
-├─ App.tsx 
-├─ main.tsx
-└─ App.css
-```
 
-The main application state is managed in `App.tsx`, while UI responsibilities are divided into smaller, focused components.
+src/
+├─ App.tsx // Main state & orchestration
+├─ main.tsx // Application entry point
+└─ App.css // Basic styling
+
+yaml
+Copy code
+
+The main application state is managed in `App.tsx`, while UI responsibilities are kept simple and readable.
 
 ---
 
@@ -61,17 +67,15 @@ The main application state is managed in `App.tsx`, while UI responsibilities ar
 ```bash
 npm install
 npm run dev
-
 Open http://localhost:5173 in your browser.
 
 🏗️ Build for Production
+bash
+Copy code
 npm run build
-
-
 This command generates a dist/ folder containing the production build.
 
 🌐 Deployment
-
 The application is deployed on Vercel using GitHub integration.
 
 Framework: Vite
@@ -85,19 +89,17 @@ Node.js Version: 20.x
 Environment Variables: Not required
 
 🧠 Development Approach
-
 Began with a single-file implementation to ensure functionality
 
-Refactored into multiple components once logic grew
+Refactored gradually as logic grew
 
-Maintained a simple state management approach using React hooks
+Used React hooks for simple and predictable state management
 
 Focused on readability and clarity over complex abstractions
 
 Followed the assignment constraints closely
 
 ⚠️ Challenges Faced
-
 Implementing dynamic filters dependent on other active filters
 
 Managing inline editing without excessive updates
@@ -107,11 +109,11 @@ Resolving build and deployment issues caused by experimental tooling
 These were resolved by simplifying logic, isolating responsibilities, and using stable configurations.
 
 📌 Notes
-
 No AI-generated code was used in this project
 
 All logic was implemented manually in line with assignment guidelines
 
 The project can be extended further with pagination or backend integration
 
-
+👤 Author
+Ritesh Phulari
