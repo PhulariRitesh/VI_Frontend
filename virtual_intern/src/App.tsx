@@ -135,7 +135,7 @@ function App() {
     <>
       {/*  Filter dropdowns for brand, category, price, rating and reset button */}
       <div style={{ marginBottom: "15px", display: "flex", gap: "10px" }}>
-        {["brand", "category"].map(f => (
+        {(["brand", "category"] as const).map(f => (
           <select
             key={f}
             value={filters[f]}
