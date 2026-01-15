@@ -59,7 +59,7 @@ function App() {
             if(filters.brand && field !== "brand" && p.brand !== filters.brand){
               return false;
             }
-            if(filter.category && field !== "category" && p.category !== filters.category){
+            if(filters.category && field !== "category" && p.category !== filters.category){
               return false;
             }
             return true;
@@ -69,11 +69,7 @@ function App() {
     ];
   };
 
-  //These two functions are for inline editing of product title
-  const handleTitleEdit = async (id, value) => {
-    if (!value.trim()) return;
-    await updateProductTitle(id, value);
-  };
+
 
   const updateProductTitle = (id: number, title: string) => {
     return new Promise<void>(resolve => {
