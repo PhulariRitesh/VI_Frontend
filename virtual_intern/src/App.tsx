@@ -10,10 +10,12 @@ type Product = {
 };
 
 function App() {
+  // States for products, loading, error
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Filters state for brand, category, price, rating 
   const [filters, setFilters] = useState({
     brand: "",
     category: "",
@@ -21,6 +23,7 @@ function App() {
     rating: ""
   },);
 
+  // Price and rating arranged in ranges
   const priceRanges: Record<string, (p: Product) => boolean> = {
     "0-50": (p: Product) => p.price <= 50,
     "51-100": (p: Product) => p.price > 50 && p.price <= 100,
@@ -41,6 +44,7 @@ function App() {
   });
 
 
+  // This function is for dynamically filtering options based on current filters  
   const getOptions = (field: keyof Product) => {
     return [
       ...new Set(
@@ -55,6 +59,7 @@ function App() {
     ];
   };
 
+  //These two functions are for inline editing of product title
   const handleTitleEdit = async (id, value) => {
     if (!value.trim()) return;
     await updateProductTitle(id, value);
@@ -72,6 +77,8 @@ function App() {
     });
   };
 
+
+// Fetch products by handling loading and error states
   useEffect(() => {
     setLoading(true);
     fetchProducts()
@@ -96,6 +103,7 @@ function App() {
     });
   };
 
+  // This function is for deleting a product
   const deleteProduct = (id: number) => {
     return new Promise<void>(resolve => {
       setTimeout(() => {
@@ -105,6 +113,7 @@ function App() {
     });
   };
 
+  // Initial fetch of products
   useEffect(() => {
     fetchProducts().then(setProducts);
   }, []);
@@ -114,6 +123,7 @@ function App() {
 
   return (
     <>
+      {/*  Filter dropdowns for brand, category, price, rating and reset button */}
       <div style={{ marginBottom: "15px", display: "flex", gap: "10px" }}>
         {["brand", "category"].map(f => (
           <select
@@ -153,11 +163,12 @@ function App() {
           ))}
         </select>
 
+          {/* Reset filters button to reset the filters */}
         <button onClick={() => setFilters({ brand: "", category: "", price: "", rating: "" })}>
           Reset
         </button>
       </div>
-
+      {/*   The main part of the app displaying the product table */}
       <div>
         <table>
           <thead>
@@ -205,6 +216,7 @@ function App() {
           </tbody>
         </table>
 
+      {/* Message when no results are found after filtering */}
         {filterdata.length === 0 && (
           <p style={{ marginTop: "15px", color: "red" }}>
             No results found
