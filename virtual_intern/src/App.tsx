@@ -49,11 +49,21 @@ function App() {
     return [
       ...new Set(
         products
-          .filter(p =>
-            Object.entries(filters).every(([key, value]) =>
-              key === field || value === "" || p[key] === value
-            )
-          )
+          .filter(p => {
+            if filters.price && !priceRanges[filters.price](p)){
+              return false;
+            }
+            if(filters.rating && !ratingRanges[filters.rating](p)){
+              return false;
+            }
+            if9filters.brand && field !== "brand" && p.brand !== filters.brand){
+              return false;
+            }
+            if(filter.category && field !== "category" && p.category !== filters.category){
+              return false;
+            }
+            return true;
+          })
           .map(p => p[field])
       )
     ];
